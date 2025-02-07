@@ -67,8 +67,8 @@ function SelectModel({ updateModel, prefill }) {
                     <TextArea value={systemPrompt} onUpdate={setSystemPrompt} />
                 </div>
                 <div className='buttons'>
-                    <div className='button' onClick={submitUpdate}>Submit</div>
-                    <div className='button' onClick={closeDialog}>Cancel</div>
+                    <div className='button clickable' onClick={submitUpdate}>Submit</div>
+                    <div className='button clickable reverse' onClick={closeDialog}>Cancel</div>
                 </div>
             </div>
         </dialog>

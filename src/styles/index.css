@@ -1,6 +1,7 @@
 * {
     font-family: ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji";
     box-sizing: border-box;
+    font-size: 16px;
 }
 
 *::-webkit-scrollbar { background-color: transparent; width: 15px; }
@@ -15,4 +16,311 @@
 *::-webkit-scrollbar-thumb:hover { background-color: rgba(230, 230, 230, 0.7); }
 .clickable:hover { cursor: pointer; }
 .hidden { display: none; }
-input:focus, dialog:focus { outline: none; }
+input:focus, dialog:focus, textarea:focus { outline: none; }
+
+dialog {
+    background-color: transparent;
+    outline: none;
+    border: none;
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
+.left-menu-bar {
+    position: absolute;
+    height: 100dvh;
+    width: calc(25dvw - 80px);
+    left: 0;
+    top: 0;
+    box-shadow: 3px 0px 4px lightgray;
+    padding: 20px;
+}
+
+.left-menu-bar > .menu-item {
+    width: 100%;
+    height: 35px;
+    align-content: center;
+}
+.left-menu-bar > .menu-item:hover {
+    color: blue;
+}
+
+.chats-main {
+    width: 75dvw;
+    height: 70dvh;
+    position: fixed;
+    top: 40px;
+    right: 40px;
+    border: 1px solid lightgray;
+    border-radius: 15px;
+    padding: 20px 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.chats-main > .empty-greeting {
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+    color: silver;
+}
+
+.chats-main > .chat-section {
+    margin: 0px;
+    width: 100%;
+    display: block;
+    height: 100%;
+    border-right: 1px solid lightgray;
+    padding: 0px 10px;
+    position: relative;
+}
+
+.chats-main > .chat-section:last-child {
+    border-right: unset;
+}
+
+.chats-main > .chat-section > .chat-config {
+    background-color: rgb(220 220 220);
+    height: 40px;
+    border-radius: 5px;
+    padding: 0px 10px;
+    align-content: center;
+    display: grid;
+    grid-template-columns: 1fr 30px 30px;
+    gap: 10px;
+}
+
+.chats-main > .chat-section > .chat-config > i.bi-pencil:hover {
+    color: dodgerblue;
+}
+.chats-main > .chat-section > .chat-config > i.bi-trash:hover {
+    color: red;
+}
+
+.chats-main > .chat-section > .conversation {
+    height: calc(100% - 50px);
+    width: 100%;
+    position: relative;
+    margin-top: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.chats-main > .chat-section > .conversation > .bubble {
+    width: fit-content;
+    max-width: 100%;
+    padding: 5px 15px;
+    height: fit-content;
+    align-content: center;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+.chats-main > .chat-section > .conversation > .bubble.user {
+    border-bottom-right-radius: unset;
+    background-color: dodgerblue;
+    color: white;
+    margin-right: 0px;
+    margin-left: auto;
+}
+.chats-main > .chat-section > .conversation > .bubble.assistant {
+    border-bottom-left-radius: unset;
+    background-color: rgb(230 230 230);
+    color: black;
+    margin-left: 0px;
+    margin-right: auto;
+}
+
+.chats-main > .chat-section > .conversation > .bubble p {
+    margin: 5px 0px;
+}
+
+.chats-main > .chat-section > .conversation > .bubble pre {
+    background-color: rgb(50 50 50);
+    color: white;
+    border-radius: 7px;
+    padding: 10px;
+    width: 100%;
+    max-height: 200px;
+    overflow: auto;
+}
+
+.chats-main > .chat-section > .conversation > .bubble :not(pre) code {
+    background-color: rgb(210 210 210);
+    border-radius: 3px;
+    padding: 0px 5px;
+}
+
+.chats-main > .chat-section > .conversation > .bubble.user :not(pre) code {
+    background-color: rgb(28, 126, 224);
+}
+
+@keyframes loadingAnimation {
+    0% { color: rgb(90, 90, 90); }
+    50% { color: rgb(150, 150, 150); }
+    100% { color: rgb(210, 210, 210); }
+}
+
+.chats-main > .chat-section > .conversation > .bubble > .loading {
+    height: 30px;
+    align-content: center;
+}
+
+.chats-main > .chat-section > .conversation > .bubble > .loading > i {
+    font-size: 12px;
+    margin-right: 4px;
+    animation: loadingAnimation 1.2s infinite linear;
+}
+.chats-main > .chat-section > .conversation > .bubble > .loading > i:nth-child(2) {
+    animation-delay: .4s;
+}
+.chats-main > .chat-section > .conversation > .bubble > .loading > i:nth-child(3) {
+    animation-delay: .8s;
+}
+
+.message-flex-container {
+    position: absolute;
+    right: 40px;
+    bottom: 20px;
+    height: calc(30dvh - 80px);
+    width: 75dvw;
+    display: flex;
+    align-items: center;
+}
+
+.message-container {
+    position: relative;
+    width: 100%;
+}
+
+.message-container > .custom-field.textarea {
+    width: 100%;
+    resize: none;
+    padding: 15px;
+    border-radius: 15px;
+    border: unset;
+    box-shadow: 2px 5px 5px 5px lightgray;
+    max-height: 100%;
+    min-height: 50px;
+}
+
+.message-container > .message-button {
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+    width: 50px;
+    height: 50px;
+    align-content: center;
+    text-align: center;
+    transition-duration: .2s;
+}
+
+.message-container > .message-button:hover {
+    color: dodgerblue;
+}
+
+.message-container > .message-button > i {
+    font-size: 25px;
+}
+
+.custom-field {
+    width: 100%;
+    min-height: 40px;
+}
+
+.custom-field.textarea {
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    padding: 10px;
+    resize: none;
+}
+
+.custom-field.range {
+    display: flex;
+    align-items: center;
+}
+
+.custom-field.range > .slider {
+    flex-basis: 70%;
+    margin-left: 0px;
+    margin-right: 10px;
+}
+
+.custom-field.range > .number {
+    flex-basis: 30%;
+    min-width: 30px;
+    height: 100%;
+    text-align: center;
+    margin-right: 0px;
+    margin-left: auto;
+}
+
+.select-model-dialog-main {
+    width: 530px;
+    height: fit-content;
+    min-height: 500px;
+    max-height: calc(100dvh - 80px);
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: rgb(245 245 245);
+    border: 2px solid gray;
+    position: relative;
+}
+
+.select-model-dialog-main > .input-group {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    column-gap: 10px;
+}
+
+.select-model-dialog-main > .input-group > * {
+    margin-bottom: 10px;
+}
+
+.select-model-dialog-main > .input-group > .title {
+    height: 40px;
+    align-content: center;
+}
+
+.select-model-dialog-main > .buttons {
+    width: 100%;
+    display: flex;
+    position: absolute;
+    bottom: 20px;
+    height: 40px;
+    align-items: center;
+}
+
+.select-model-dialog-main > .buttons > .button {
+    min-width: 100px;
+    width: 150px;
+    height: 40px;
+    align-content: center;
+    text-align: center;
+    padding: 0px 10px;
+    margin-right: 20px;
+    border-radius: 10px;
+    background-color: dodgerblue;
+    transition-duration: .2s;
+    color: white;
+}
+.select-model-dialog-main > .buttons > .button:not(.reverse):hover {
+    background-color: rgb(25, 120, 215);
+}
+
+.select-model-dialog-main > .buttons > .button.reverse {
+    color: dodgerblue;
+    border: 2px solid dodgerblue;
+    background-color: transparent;
+}
+
+.select-model-dialog-main > .buttons > .button.reverse:hover {
+    color: rgb(25, 120, 215);
+    border-color: rgb(25, 120, 215);
+}

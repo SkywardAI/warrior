@@ -31,6 +31,15 @@ export default function Main() {
             return;
         }
         resetSession();
+        setChats(prevState=>prevState.map(e=>{
+                return {
+                    ...e,
+                    messages: [],
+                    pendingMessage: '',
+                    isWaitingComplete: false
+                }
+            })
+        )
     }
 
     function deleteChat(chatId) {
@@ -81,6 +90,11 @@ export default function Main() {
 
         if (!message) {
             toast.warning("Message cannot be empty!");
+            return;
+        }
+
+        if (!chats.length) {
+            toast.warning("Please select at least one model first!");
             return;
         }
 
@@ -144,24 +158,41 @@ export default function Main() {
 
     return (
         <div className="main">
-            <div className="clickable" onClick={addNewChat}>click to add new chat</div>
+            
+            <div className="left-menu-bar">
+                <div className="menu-item clickable" onClick={addNewChat}>Add a new chat</div>
+                <div className="menu-item clickable" onClick={resetChat}>Reset chats</div>
+            </div>
 
-            <div>{ chats.map((chat)=>{
-                return (
-                    <ChatSection 
-                        key={chat.id} chat={chat}
-                        updateModelSettings={()=>startEdit(chat.id)}
+            <div className="chats-main">{ 
+                chats.length ?
+
+                chats.map((chat)=>{
+                    return (
+                        <ChatSection 
+                            key={chat.id} chat={chat}
+                            updateModelSettings={()=>startEdit(chat.id)}
+                            deleteChat={()=>deleteChat(chat.id)}
+                        />
+                    )
+                }) :
+                
+                <div className="empty-greeting">Please start a new chat by using the left menu bar.</div>
+            }</div>
+
+            <div className="message-flex-container">
+                <div className="message-container">
+                    <TextArea 
+                        value={message} onUpdate={setMessage} 
+                        onKeyDown={textAreaKeyDown} maxRows={10} 
+                        placeholder="Please input your message here"
                     />
-                )
-            }) }</div>
-
-            <div className="message-container">
-                <TextArea value={message} onUpdate={setMessage} onKeyDown={textAreaKeyDown}/>
-                <div
-                    className="message-button clickable"
-                    onClick={allCompleteFinished ? sendMessage : interruptCompletion}
-                >
-                    <i className={c('bi', allCompleteFinished ? 'bi-send' : 'bi-stop-circle-fill')} />
+                    <div
+                        className="message-button clickable"
+                        onClick={allCompleteFinished ? sendMessage : interruptCompletion}
+                    >
+                        <i className={c('bi', allCompleteFinished ? 'bi-send' : 'bi-stop-circle-fill')} />
+                    </div>
                 </div>
             </div>
             <SelectModel 

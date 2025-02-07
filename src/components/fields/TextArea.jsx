@@ -1,20 +1,24 @@
 import { PropTypes } from 'prop-types';
 import c from 'classnames';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 function TextArea({ 
     value, onUpdate, disabled, className, 
     autoNewLine = true, maxRows = 5, rows = 1,
-    ...attrs 
+    ...attrs
 }) {
 
     const [autoRows, setRows] = useState(rows);
 
     function onInput(e) {
         if (disabled) return;
-        autoNewLine && setRows(Math.min(maxRows, e.target.value.split('\n').length));
         onUpdate(e.target.value);
     }
+
+    useEffect(()=>{
+        autoNewLine && setRows(Math.min(maxRows, value.split('\n').length));
+    }, [value, autoNewLine, maxRows])
 
     return (
         <textarea 
