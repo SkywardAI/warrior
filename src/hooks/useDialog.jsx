@@ -37,5 +37,10 @@ export default function useDialog(dialogName) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    return [status, ()=>openDialog(dialogName), ()=>closeDialog(dialogName), ()=>toggleDialog(dialogName)];
+    return {
+        status,
+        openDialog: ()=>openDialog(dialogName),
+        closeDialog: ()=>closeDialog(dialogName),
+        toggleDialog: ()=>toggleDialog(dialogName)
+    };
 }

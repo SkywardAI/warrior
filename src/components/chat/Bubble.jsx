@@ -5,9 +5,9 @@ import Markdown from 'react-markdown';
 function loadingAnimation() {
     return (
         <div className="loading">
-            <i className="bi bi-circle-fill"></i>
-            <i className="bi bi-circle-fill"></i>
-            <i className="bi bi-circle-fill"></i>
+            <i className="bi bi-circle-fill" />
+            <i className="bi bi-circle-fill" />
+            <i className="bi bi-circle-fill" />
         </div>
     )
 }

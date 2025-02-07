@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import useDialog from "../hooks/useDialog"
 
 export default function Settings() {
-    const [status] = useDialog('setting-dialog');
+    const {status} = useDialog('setting-dialog');
     const ref = useRef(null);
 
     useEffect(()=>{
