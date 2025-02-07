@@ -177,7 +177,10 @@ export default function Main() {
                     )
                 }) :
                 
-                <div className="empty-greeting">Please start a new chat by using the left menu bar.</div>
+                <div className="empty-greeting">
+                    <div>Please start a new chat by using the left menu bar.</div>
+                    <div>At most 3 chats at the same time are supported.</div>
+                </div>
             }</div>
 
             <div className="message-flex-container">
