@@ -161,7 +161,7 @@ body {
 }
 
 .chats-main > .chat-section > .conversation > .bubble pre code {
-    background-color: transparent;
+    background-color: transparent !important;
 }
 
 @keyframes loadingAnimation {
