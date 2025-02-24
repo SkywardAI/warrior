@@ -39,3 +39,10 @@ serve
 ```
 > **NOTE**  
 > `serve` is a npm package you might also want to install to serve it locally. To install it, simply run `pnpm install -g serve`. You can use any other applications you are familiar with to host the application.
+
+
+# LICENSE
+
+Apache License Version 2.0
+
+Copyright [2025] [SkywardAI]
