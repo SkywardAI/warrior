@@ -3,6 +3,10 @@
 This app uses VITE+REACT and AWS SDK JavaScript v3 performs AI chat using AWS Bedrock Models.  
 Current models are hard-coded in `src/utils/types.js`, edit it to edit the model options.  
 
+
+https://github.com/user-attachments/assets/3808850f-be1b-4967-b36b-02481ac84268
+
+
 ## Environment Variables
 To use this application, an AWS Account is required. Please use your own account and have `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_SESSION_TOKEN` ready.  
 Create a file `.env.local` and place your credentials in there, have `VITE_` before:
