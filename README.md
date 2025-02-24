@@ -4,9 +4,7 @@ This app uses VITE+REACT and AWS SDK JavaScript v3 performs AI chat using AWS Be
 Current models are hard-coded in `src/utils/types.js`, edit it to edit the model options.  
 
 
-
 https://github.com/user-attachments/assets/3808850f-be1b-4967-b36b-02481ac84268
-
 
 
 ## Environment Variables
