@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Li"
+    given-names: "Bowen"
+    orcid: "https://orcid.org/0009-0007-6470-5607"
+  - family-names: "Cheng"
+    given-names: "Bohan"
+title: "warrior"
+version: 1.0.0
+doi: <>
+date-released: 2025-2-25
+url: "https://github.com/SkywardAI/warrior"
