@@ -1,15 +1,14 @@
-import { useState } from "react"
+import { useState, useCallback, useEffect } from "react"
 import useDialog from "../hooks/useDialog";
 import SelectModel from "./SelectModel";
 import { toast } from "react-toastify";
 import { generateId } from "../utils/tools";
 import ChatSection from "./chat/ChatSection";
 import { completion, resetSession, interruptCompletion } from "../utils/bedrock-worker";
-import { useEffect } from "react";
 import c from 'classnames';
 import TextArea from "./fields/TextArea";
 
-export default function Main() {
+function Main() {
 
     const [ chats, setChats ] = useState([]);
     const [ editChatId, setEditChatId ] = useState(null); 
@@ -17,15 +16,15 @@ export default function Main() {
     const [ allCompleteFinished, setAllCompleteFinished ] = useState(true);
     const { openDialog:showModelDialog, closeDialog:closeModelDialog } = useDialog('select-model-dialog')
 
-    function addNewChat() {
+    const addNewChat = useCallback(() => {
         if (chats.length >= 3) {
             toast.warning("At most 3 conversations at the same time!");
             return;
         }
         startEdit(null);
-    }
+    }, [chats.length, startEdit])
 
-    function resetChat() {
+    const resetChat = useCallback(() => {
         if (!allCompleteFinished) {
             toast.warning("Response not completed yet, please wait!");
             return;
@@ -40,17 +39,17 @@ export default function Main() {
                 }
             })
         )
-    }
-
-    function deleteChat(chatId) {
+    }, [allCompleteFinished])
+    
+    const deleteChat = useCallback((chatId) => {
         if (!allCompleteFinished) {
             toast.warning("Response not completed yet, please wait!");
             return;
         }
         setChats(prevState=>prevState.filter(({id})=>id!==chatId));
-    }
+    }, [allCompleteFinished]);
 
-    function finishSelectModel(modelConfig) {
+    const finishSelectModel = useCallback((modelConfig) => {
         const newChat = {
             id: generateId(),
             modelConfig,
@@ -60,14 +59,14 @@ export default function Main() {
         }
         setChats(prevState=>[...prevState, newChat]);
         closeModelDialog();
-    }
+    }, [closeModelDialog]);
 
-    function startEdit(chatId) {
+    const startEdit = useCallback((chatId) => {
         setEditChatId(chatId);
         showModelDialog();
-    }
-
-    function updateModelSettings(chatId) {
+    }, [showModelDialog]);
+    
+    const updateModelSettings = useCallback((chatId) => {
         return (modelConfig) => {
             setChats(prevState=>prevState.map(chat=>{
                 if (chat.id === chatId) {
@@ -80,9 +79,9 @@ export default function Main() {
             }))
             closeModelDialog();
         }
-    }
-
-    async function sendMessage() {
+    }, [closeModelDialog]);
+    
+    const sendMessage = useCallback(async () => {
         if (!allCompleteFinished) {
             toast.warning("Response not completed yet, please wait!");
             return;
@@ -142,19 +141,19 @@ export default function Main() {
                 }
             }
         }))
-    }
+    }, [allCompleteFinished, chats, message]);
 
     useEffect(()=>{
         if(setAllCompleteFinished(chats.every(({isWaitingComplete})=>!isWaitingComplete)));
     }, [chats])
 
-    function textAreaKeyDown(event) {
+    const textAreaKeyDown = useCallback((event) => {
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault();
             sendMessage();
             setMessage('');
         }
-    }
+    }, [sendMessage, setMessage]);
 
     return (
         <div className="main">
@@ -205,3 +204,5 @@ export default function Main() {
         </div>
     )
 }
+
+export default Main;

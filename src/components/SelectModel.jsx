@@ -1,10 +1,9 @@
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { PropTypes } from 'prop-types';
-import { useEffect, useRef } from 'react';
 import useDialog from "../hooks/useDialog"
-import { useState } from 'react';
+import { MODELS } from '../utils/types';
 import Range from './fields/Range';
 import Select from './fields/Select';
-import { MODELS } from '../utils/types';
 import TextArea from './fields/TextArea';
 
 function SelectModel({ updateModel, prefill }) {
@@ -45,11 +44,11 @@ function SelectModel({ updateModel, prefill }) {
         }
     }, [status])
 
-    function updateModelName(modelId) {
+    const updateModelName = useCallback(modelId => {
         setModelId(modelId);
         const modelName = MODELS.find(model=>model.value === modelId)?.label ?? '';
         setModelName(modelName);
-    }
+    }, [])
 
     return (
         <dialog ref={ref} onClose={closeDialog}>
@@ -80,4 +79,4 @@ SelectModel.propTypes = {
     prefill: PropTypes.object
 }
 
-export default SelectModel;
+export default memo(SelectModel);
