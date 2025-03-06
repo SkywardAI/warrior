@@ -16,13 +16,18 @@ function Main() {
     const [ allCompleteFinished, setAllCompleteFinished ] = useState(true);
     const { openDialog:showModelDialog, closeDialog:closeModelDialog } = useDialog('select-model-dialog')
 
+    const startEdit = useCallback((chatId) => {
+        setEditChatId(chatId);
+        showModelDialog();
+    }, [showModelDialog]);
+
     const addNewChat = useCallback(() => {
-        if (chats.length >= 3) {
+        if (chats?.length >= 3) {
             toast.warning("At most 3 conversations at the same time!");
             return;
         }
         startEdit(null);
-    }, [chats.length, startEdit])
+    }, [chats, startEdit])
 
     const resetChat = useCallback(() => {
         if (!allCompleteFinished) {
@@ -60,11 +65,6 @@ function Main() {
         setChats(prevState=>[...prevState, newChat]);
         closeModelDialog();
     }, [closeModelDialog]);
-
-    const startEdit = useCallback((chatId) => {
-        setEditChatId(chatId);
-        showModelDialog();
-    }, [showModelDialog]);
     
     const updateModelSettings = useCallback((chatId) => {
         return (modelConfig) => {
