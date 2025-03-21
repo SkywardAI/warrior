@@ -1,4 +1,4 @@
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import c from 'classnames';
 
 function Input({ value, onUpdate, disabled, className, ...attrs }) {

@@ -1,6 +1,7 @@
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import c from "classnames";
 import Markdown from 'react-markdown';
+import { memo } from 'react';
 
 function loadingAnimation() {
     return (
@@ -28,4 +29,4 @@ Bubble.propTypes = {
     isHidden: PropTypes.bool
 }
 
-export default Bubble;
+export default memo(Bubble);

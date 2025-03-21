@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react"
 import useDialog from "../hooks/useDialog";
-import SelectModel from "./SelectModel";
+import ConfigModelDialog from "./ConfigModelDialog";
 import { toast } from "react-toastify";
 import { generateId } from "../utils/tools";
 import ChatSection from "./chat/ChatSection";
@@ -14,7 +14,7 @@ function Main() {
     const [ editChatId, setEditChatId ] = useState(null); 
     const [ message, setMessage ] = useState('');
     const [ allCompleteFinished, setAllCompleteFinished ] = useState(true);
-    const { openDialog:showModelDialog, closeDialog:closeModelDialog } = useDialog('select-model-dialog')
+    const { open:showModelDialog, close:closeModelDialog } = useDialog('select-model-dialog')
 
     const startEdit = useCallback((chatId) => {
         setEditChatId(chatId);
@@ -197,7 +197,7 @@ function Main() {
                     </div>
                 </div>
             </div>
-            <SelectModel 
+            <ConfigModelDialog 
                 updateModel={editChatId ? updateModelSettings(editChatId) : finishSelectModel}
                 prefill={editChatId ? chats.find(({id})=>id===editChatId)?.modelConfig || {} : {}}
             />

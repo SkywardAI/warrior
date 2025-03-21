@@ -1,4 +1,4 @@
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import c from 'classnames';
 import { useState } from 'react';
 import { useEffect } from 'react';

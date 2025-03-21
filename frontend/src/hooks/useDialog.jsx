@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 const dialogs = {}
 const components = {};
@@ -34,13 +34,21 @@ export default function useDialog(dialogName) {
         return () => {
             components[dialogName].splice(components[dialogName].indexOf(setStatus), 1);
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [dialogName])
+
+    const open = useCallback(()=>{
+        openDialog(dialogName);
+    }, [dialogName])
+
+    const close = useCallback(()=>{
+        closeDialog(dialogName);
+    }, [dialogName])
+
+    const toggle = useCallback(()=>{
+        toggleDialog(dialogName);
+    }, [dialogName])
 
     return {
-        status,
-        openDialog: ()=>openDialog(dialogName),
-        closeDialog: ()=>closeDialog(dialogName),
-        toggleDialog: ()=>toggleDialog(dialogName)
+        status, open, close, toggle
     };
 }

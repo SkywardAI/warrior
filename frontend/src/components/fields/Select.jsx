@@ -1,4 +1,4 @@
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import c from 'classnames';
 
 function Select({ value, onUpdate, disabled, className, options, ...attrs }) {
