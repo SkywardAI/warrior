@@ -17,6 +17,15 @@ app.use(require('body-parser').json());
 require('express-ws')(app);
 
 // ===========================================
+// Models
+// ===========================================
+
+const { listModels } = require("./actions/models");
+
+const modelsRouter = express.Router();
+modelsRouter.get('/list', listModels);
+
+// ===========================================
 // Websocket
 // ===========================================
 app.ws('/api/ws', require('./actions/ws').wsHandler)
@@ -24,6 +33,7 @@ app.ws('/api/ws', require('./actions/ws').wsHandler)
 // ===========================================
 // Base routers
 // ===========================================
+app.use('/api/models', modelsRouter);
 app.use(express.static(join(__dirname, '..', 'dist')));
 app.get('*', (_, res)=>{
     res.sendFile(join(__dirname, '..', 'dist', 'index.html'));

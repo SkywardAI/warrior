@@ -1,12 +1,12 @@
+const { BedrockClient, ListFoundationModelsCommand } = require('@aws-sdk/client-bedrock');
 const { BedrockRuntimeClient, ConverseStreamCommand } = require('@aws-sdk/client-bedrock-runtime');
 
 let bedrockRuntime = null;
 let interrupt = false;
 
-const initClient = () => {
-    if (bedrockRuntime) return;
+let availableModels = null;
 
-
+const getInit = () => {
     const init = {};
 
     const region = process.env.AWS_REGION || '';
@@ -14,8 +14,11 @@ const initClient = () => {
     const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY || '';
     const sessionToken = process.env.AWS_SESSION_TOKEN || '';
 
-    if (region && accessKeyId && secretAccessKey) {
+    if (region) {
         init.region = region;
+    }
+
+    if (accessKeyId && secretAccessKey) {
         init.credentials = {
             accessKeyId,
             secretAccessKey,
@@ -25,7 +28,29 @@ const initClient = () => {
         }
     }
 
-    bedrockRuntime = new BedrockRuntimeClient(init);
+    return init;
+}
+
+const listModels = async () => {
+    try {
+        if (availableModels) return availableModels;
+
+        const bedrock = new BedrockClient(getInit());
+        const { modelSummaries } = await bedrock.send(new ListFoundationModelsCommand());
+        availableModels = modelSummaries
+            .filter(model=> model.outputModalities.includes('TEXT'))
+            .map(({ modelId, modelName, providerName }) => { return { modelId, modelName, providerName } });
+    } catch (error) {
+        console.error('Error listing Bedrock models:', error);
+        availableModels = [];
+    }
+    return availableModels;
+}
+
+
+const initClient = () => {
+    if (bedrockRuntime) return;
+    bedrockRuntime = new BedrockRuntimeClient(getInit());
 }
 
 const resetSession = () => {
@@ -93,5 +118,6 @@ const interruptCompletion = () => {
 module.exports = {
     completion,
     interruptCompletion,
-    resetSession
+    resetSession,
+    listModels
 }
