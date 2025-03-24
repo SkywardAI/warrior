@@ -1,7 +1,6 @@
 # WARRIOR
 
-This app uses VITE+REACT + Node.JS and AWS SDK JavaScript v3 performs AI chat using AWS Bedrock Models.  
-Current models are hard-coded in `frontend/src/utils/types.js`, edit it to edit the model options.  
+This app uses VITE+REACT + Node.JS and AWS SDK JavaScript v3 performs AI chat using AWS Bedrock Models.  =
 
 
 https://github.com/user-attachments/assets/3808850f-be1b-4967-b36b-02481ac84268
@@ -47,6 +46,3 @@ And open the backend route (default [http://localhost:3000](http://localhost:300
 Apache License Version 2.0
 
 Copyright [2025] [SkywardAI]
-
-# Future Works:
-* Automatically fetch available models from AWS Bedrock
