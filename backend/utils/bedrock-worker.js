@@ -39,11 +39,13 @@ const listModels = async () => {
         const { modelSummaries } = await bedrock.send(new ListFoundationModelsCommand());
         availableModels = modelSummaries
             .filter(model=> model.outputModalities.includes('TEXT'))
-            .map(({ modelId, modelName, providerName }) => { return { modelId, modelName, providerName } });
+            .map(({ modelId, modelName, providerName, inputModalities }) => {
+                const supportImage = inputModalities.includes('IMAGE');
+                return { modelId, modelName, providerName, supportImage } 
+            });
         return availableModels;
     } catch (error) {
-        console.error('Error listing Bedrock models:', error);
-        throw new Error('Failed to load models')
+        throw error;
     }
 }
 
@@ -80,21 +82,26 @@ singleComplete = async ({modelId, systemPrompt, history, inferenceConfig}, callb
     }
 
     const command = new ConverseStreamCommand(input);
-    const response = await bedrockRuntime.send(command);
-    
-    let resp_text = '', usage;
-    for await (const resp of response.stream) {
-        if(resp.contentBlockDelta) {
-            resp_text += resp.contentBlockDelta.delta.text;
-            callback && callback(resp_text, false);
-        } else if(resp.metadata) {
-            usage = resp.metadata.usage;
-        }
-        
-        if(interrupt) break;
-    }
 
-    callback && callback(resp_text, true, usage);
+    let content = '', usage;
+    try {
+        const response = await bedrockRuntime.send(command);
+        
+        for await (const resp of response.stream) {
+            if(resp.contentBlockDelta) {
+                content += resp.contentBlockDelta.delta.text;
+                callback && callback({ content, isFinished: false });
+            } else if(resp.metadata) {
+                usage = resp.metadata.usage;
+            }
+            
+            if(interrupt) break;
+        }
+    
+        callback && callback({ content, isFinished: true, usage });
+    } catch(error) {
+        callback({ error: {name: error.name, message: error.message}, content, isFinished: true });
+    }
 }
 
 /**

@@ -5,8 +5,12 @@ const listModels = async (req, res) => {
         const availableModels = await queryAvailableModels();
         res.json({models: availableModels});
     } catch (e) {
-        console.error(e);
-        res.status(500).json({error: e.message});
+        res.status(200).json({
+            error: {
+                name: e.name,
+                message: e.message
+            }
+        });
     }
 }
 

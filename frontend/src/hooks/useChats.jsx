@@ -15,8 +15,8 @@ class History {
         this.history = pastHistory ?? [];
     }
 
-    add(role, content) {
-        this.history.push({ role, content });
+    add(role, content, error = null) {
+        this.history.push({ role, content, error });
     }
 
     reset() {

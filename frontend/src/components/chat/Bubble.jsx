@@ -13,10 +13,18 @@ function loadingAnimation() {
     )
 }
 
-function Bubble({ content, bubbleRole, className, isPendingBubble, isHidden }) {
+function Bubble({ content, bubbleRole, className, isPendingBubble, isHidden, error }) {
     return (
-        <div className={c('bubble', bubbleRole, className, { 'hidden': isHidden })}>
-            { (isPendingBubble && !isHidden && !content) ? loadingAnimation() : <Markdown>{content}</Markdown> }
+        <div className={c('bubble', bubbleRole, className, { 'hidden': isHidden, error: !!error })}>
+            {
+                error ? 
+                <div className='error-block'>
+                    <div className='error-name'>{ error.name }</div>
+                    <div className='error-message'>{ error.message }</div>
+                </div> :
+                
+                (isPendingBubble && !isHidden && !content) ? loadingAnimation() : <Markdown>{content}</Markdown>
+            }
         </div>
     )
 }
@@ -26,7 +34,8 @@ Bubble.propTypes = {
     bubbleRole: PropTypes.oneOf(['user', 'assistant']).isRequired,
     className: PropTypes.string,
     isPendingBubble: PropTypes.bool,
-    isHidden: PropTypes.bool
+    isHidden: PropTypes.bool,
+    error: PropTypes.object
 }
 
 export default memo(Bubble);

@@ -9,9 +9,10 @@ export default function App() {
 
     useEffect(()=>{
         initClient();
-        loadModels().then(result=>{
-            if (!result) {
-                toast.error('Failed to load models, please check your credentials!');
+        loadModels().then(error=>{
+            if (error) {
+                console.log(error);
+                toast.error(`Failed to load model: ${error.name}: ${error.message}`);
             }
         });
     }, []);

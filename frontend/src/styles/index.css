@@ -136,6 +136,31 @@ body {
     margin-right: auto;
 }
 
+.chats-main > .chat-section > .conversation > .bubble.error {
+    width: 100%;
+    border-radius: 5px;
+    padding: unset;
+    border: 2px solid red;
+    background-color: white;
+}
+
+.chats-main > .chat-section > .conversation > .bubble.error .error-name {
+    width: 100%;
+    padding: 0px 10px;
+    color: white;
+    background-color: red;
+    font-size: 1.2em;
+    min-height: 40px;
+    align-content: center;
+}
+
+.chats-main > .chat-section > .conversation > .bubble.error .error-message {
+    color: red;
+    width: 100%;
+    height: fit-content;
+    padding: 10px;
+}
+
 .chats-main > .chat-section > .conversation > .bubble p {
     margin: 5px 0px;
 }
