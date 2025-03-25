@@ -15,7 +15,7 @@ function updateAll() {
 let inited = false;
 
 export async function loadModels() {
-    if (inited) return true;
+    if (inited) return null;
     inited = true;
 
     const resp = await fetch(reqRoute);
@@ -25,13 +25,11 @@ export async function loadModels() {
     }
 
     const { models:result, error } = await resp.json();
-    if (error) {
-        return false;
-    }
+    if (error) return error;
 
     models = result;
     updateAll();
-    return true;
+    return null;
 }
 
 export default function useModels() {

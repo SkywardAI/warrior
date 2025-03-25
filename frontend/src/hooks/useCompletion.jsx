@@ -22,12 +22,12 @@ function updateAllStatus() {
     }
 }
 
-export function updateCompletion({ uuid, content, isFinished }) {
-    completions[uuid] = { content, isFinished };
+export function updateCompletion({ uuid, content, isFinished, error }) {
+    completions[uuid] = { content, isFinished, error };
     updateAll(uuid);
     if (isFinished) {
         updateAllStatus();
-        chats[uuid].history.add('assistant', content);
+        chats[uuid].history.add('assistant', content, error);
     }
 }
 

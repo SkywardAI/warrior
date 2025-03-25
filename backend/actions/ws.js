@@ -23,8 +23,8 @@ function sendToAllClients(action, messages) {
 // SEND FROM SERVER
 // ===========================================
 const sendCompletion = (uuid) => {
-    return function(content, isFinished, usage = null ) {
-        sendToAllClients('completion', { uuid, content, isFinished, usage });
+    return function({content, isFinished, usage = null, error = null}) {
+        sendToAllClients('completion', { uuid, content, error, isFinished, usage });
     }
 }
 
