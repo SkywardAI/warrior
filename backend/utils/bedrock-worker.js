@@ -40,11 +40,11 @@ const listModels = async () => {
         availableModels = modelSummaries
             .filter(model=> model.outputModalities.includes('TEXT'))
             .map(({ modelId, modelName, providerName }) => { return { modelId, modelName, providerName } });
+        return availableModels;
     } catch (error) {
         console.error('Error listing Bedrock models:', error);
-        availableModels = [];
+        throw new Error('Failed to load models')
     }
-    return availableModels;
 }
 
 
