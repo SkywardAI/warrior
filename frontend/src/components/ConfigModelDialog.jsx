@@ -49,21 +49,19 @@ function ConfigModelDialog({ dialogName, uuid = null }) {
     }, [availableModels])
 
     useEffect(()=>{
-        const chat = chats[uuid];
-        setModelName(chat?.modelName || availableModels[0]?.label);
-        setModelId(chat?.modelId || availableModels[0]?.value);
-        setTemperature(chat?.temperature || 0.3);
-        setTopP(chat?.topP || 0.9);
-        setMaxTokens(chat?.maxTokens || 2000);
-        setSystemPrompt(chat?.systemPrompt || '');
-    }, [uuid, availableModels])
-
-    useEffect(()=>{
-        if(ref.current) {
-            if(status) ref.current.showModal();
-            else ref.current.close();
+        if (status) {
+            const chat = chats[uuid];
+            setModelName(chat?.modelName || availableModels[0]?.modelName);
+            setModelId(chat?.modelId || availableModels[0]?.modelId);
+            setTemperature(chat?.temperature || 0.3);
+            setTopP(chat?.topP || 0.9);
+            setMaxTokens(chat?.maxTokens || 2000);
+            setSystemPrompt(chat?.systemPrompt || '');
+            ref.current.showModal();
+        } else {
+            ref.current.close();
         }
-    }, [status])
+    }, [uuid, availableModels, status])
 
     const updateModelName = useCallback(modelId => {
         setModelId(modelId);

@@ -22,6 +22,15 @@ function updateAllStatus() {
     }
 }
 
+export function resetCompletion() {
+    Object.keys(completions).forEach(uuid => {
+        if (uuid !== 'all') {
+            delete completions[uuid];
+            updateAll(uuid);
+        }
+    })
+}
+
 export function updateCompletion({ uuid, content, isFinished, error }) {
     completions[uuid] = { content, isFinished, error };
     updateAll(uuid);
@@ -37,10 +46,13 @@ export function startCompletion(message) {
 
     Object.values(chats).forEach((chat) => {
         chat.history.add('user', message);
+        if (!chat.hasError) {
+            completions[chat.uuid] = { isFinished: false }; 
+        }
     })
 
     sendMessage('completion', {
-        chats: Object.values(chats).map((chat) => chat.value)
+        chats: Object.values(chats).filter(e=>!e.hasError).map((chat) => chat.value)
     })
 }
 

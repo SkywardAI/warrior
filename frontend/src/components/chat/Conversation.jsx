@@ -14,11 +14,10 @@ function Conversation({ chat, updateChatsToggle }) {
     const [ pendingMessage, setPendingMessage ] = useState('');
 
     const [ messages, setMessages ] = useState([]);
-    const [ error, setError ] = useState(false);
+    const [ error, setError ] = useState(null);
 
     useEffect(() => {
         if (error) return;
-
         const { isFinished } = generalCompletionStatus;
         if (isWaitingComplete === isFinished) {
             setPendingMessage('');
@@ -29,22 +28,25 @@ function Conversation({ chat, updateChatsToggle }) {
 
     useEffect(() => {
         setPendingMessage('');
-        setMessages([...chat.messages]);
-        setError(false);
+        setMessages(chat.messages);
+        setError(null);
+        setIsWatingComplete(false);
     }, [updateChatsToggle, chat])
 
     useEffect(() => {
+        if (error) return;
         if (currentCompletionStatus) {
             const { content, error } = currentCompletionStatus;
             if (error) {
-                setError(true);
+                setError(error);
                 setPendingMessage('');
-                setMessages([...chat.messages]);
                 setIsWatingComplete(false);
+                setMessages([...chat.messages]);
+                return;
             }
             setPendingMessage(content);
         }
-    }, [currentCompletionStatus, chat])
+    }, [currentCompletionStatus, chat, error])
 
     useEffect(()=>{
         ref.current && ref.current.scrollTo({
@@ -63,6 +65,7 @@ function Conversation({ chat, updateChatsToggle }) {
                 isPendingBubble={true} 
                 isHidden={!isWaitingComplete} 
                 content={pendingMessage} 
+                error={error}
             />
         </div>
     )

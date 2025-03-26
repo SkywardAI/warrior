@@ -13,14 +13,19 @@ import { useState, useEffect } from "react";
 class History {
     constructor(pastHistory = null) {
         this.history = pastHistory ?? [];
+        this.hasError = false;
     }
 
     add(role, content, error = null) {
+        if (this.hasError) return;
+        if (error) this.hasError = true;
+
         this.history.push({ role, content, error });
     }
 
     reset() {
         this.history.length = 0;
+        this.hasError = false;
     }
 }
 
@@ -77,9 +82,13 @@ class Chat {
             uuid: this.uuid,
             modelId: this.modelId,
             systemPrompt: this.systemPrompt,
-            history: this.messages,
+            history: this.history.history,
             inferenceConfig: this.inferenceConfig
         }
+    }
+
+    get hasError() {
+        return this.history.hasError;
     }
 }
 
