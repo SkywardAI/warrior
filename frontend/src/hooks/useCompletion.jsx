@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { sendMessage } from './useSocket';
+import { sendMessage } from '../utils/websocket';
 import { chats } from './useChats';
 
 const components = {};

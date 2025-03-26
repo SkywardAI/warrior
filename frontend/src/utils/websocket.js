@@ -1,4 +1,4 @@
-import { updateCompletion } from "./useCompletion";
+import { updateCompletion } from "../hooks/useCompletion";
 
 const MAX_RETRY = import.meta.env.VITE_MAX_WEBSOCKET_RETRY || -1;
 const RETRY_INTERVAL = import.meta.env.VITE_WEBSOCKET_RETRY_INTERVAL || 100;
