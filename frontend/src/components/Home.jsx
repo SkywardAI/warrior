@@ -4,7 +4,7 @@ import useDialog from "../hooks/useDialog";
 import ChatSection from "./chat/ChatSection";
 import ConfigModelDialog from "./ConfigModelDialog";
 import MessageBox from "./MessageBox";
-import useCompletion from "../hooks/useCompletion";
+import useCompletion, { resetCompletion } from "../hooks/useCompletion";
 import { toast } from "react-toastify";
 
 
@@ -28,6 +28,7 @@ function Home() {
 
     const resetAllChats = () => {
         if (generalCompletionStatus.isFinished) {
+            resetCompletion();
             resetChat();
         } else {
             toast.warn("Please wait for all completions to finish!");
