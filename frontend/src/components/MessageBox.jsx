@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { memo, useEffect, useState } from "react";
 import TextArea from "./fields/TextArea";
 import c from 'classnames';
 import useCompletion, { interruptCompletion, startCompletion } from "../hooks/useCompletion";
 
-function MessageBox() {
+function MessageBox({ disabled, focusToggle }) {
     const [ message, setMessage ] = useState('');
     const [ allCompletionFinished, setAllCompletionFinished ] = useState(true);
     const generalCompletionStatus = useCompletion('all');
@@ -31,10 +32,11 @@ function MessageBox() {
                 <TextArea 
                     value={message} onUpdate={setMessage} 
                     onKeyDown={textAreaKeyDown} maxRows={10} 
-                    placeholder="Please input your message here"
+                    placeholder={disabled ? "Please add a chat section first" : "Please input your message here"}
+                    disabled={disabled} focusToggle={focusToggle}
                 />
                 <div
-                    className="message-button clickable"
+                    className={c("message-button clickable", { hidden: disabled })}
                     onClick={allCompletionFinished ? submitMessage : interruptCompletion}
                 >
                     <i className={c('bi', allCompletionFinished ? 'bi-send' : 'bi-stop-circle-fill')} />
@@ -44,4 +46,9 @@ function MessageBox() {
     )
 }
 
-export default MessageBox;
+MessageBox.propTypes = {
+    disabled: PropTypes.bool,
+    focusToggle: PropTypes.bool
+}
+
+export default memo(MessageBox);

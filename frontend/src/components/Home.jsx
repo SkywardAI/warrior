@@ -62,7 +62,7 @@ function Home() {
                     </div>
                 }
             </div>
-            <MessageBox />
+            <MessageBox disabled={!chats || !Object.keys(chats).length} focusToggle={updateChatsToggle} />
             <ConfigModelDialog dialogName='edit-model-dialog' uuid={editChatUUID} />
         </div>
     )
